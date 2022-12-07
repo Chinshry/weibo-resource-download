@@ -608,6 +608,7 @@ Interface.impl(MyWeiBoResolver, WeiBoResolver, {
                             GM_xmlhttpRequest({
                                 method: 'GET',
                                 url: `https://weibo.com/aj/mblog/getover9pic?ajwvr=6&mid=${mid}&__rnd=${Date.now()}`,
+                                headers: {referer: 'https://weibo.com/'},
                                 timeout: Config.maxRequestTime,
                                 responseType: "json",
                                 onload: function(res) {
@@ -1070,6 +1071,7 @@ class PictureHandler {
 
         GM_download({
             url: it.src,
+            headers: {referer: 'https://weibo.com/'},
             name: is_id ? it.name_id:it.name,
             onload: () => {
 
@@ -1128,6 +1130,7 @@ class PictureHandler {
                     GM_xmlhttpRequest({
                         method: 'GET',
                         url: `http://${server}.sinaimg.cn/thumb150/${it}`,
+                        headers: {referer: 'https://weibo.com/'},
                         timeout: Config.maxRequestTime,
                         responseType: "blob",
                         onload: function(res) {
@@ -1341,7 +1344,7 @@ class VideoHandler {
     /**
      * 得到广告视频Link
      * @param  {$标签对象}  $box 视频box
-     * 
+     *
      * @return {Link}      链接对象
      */
     static getAdVideoLink($box) {
@@ -1409,7 +1412,7 @@ class VideoHandler {
      */
     static downloadVideo($box, $link, is_id) {
 
-        Tip.info("即将开始下载...");
+        // Tip.info("即将开始下载...");
 
         const progress = ZipHandler.bornProgress($box);
 
@@ -1483,6 +1486,7 @@ class ZipHandler {
             GM_xmlhttpRequest({
                 method: 'GET',
                 url: it.src,
+                headers: {referer: 'https://weibo.com/'},
                 timeout: Config.maxRequestTime,
                 responseType: "blob",
                 onload: function(response) {
@@ -1513,7 +1517,7 @@ class ZipHandler {
      * 下载打包，如果完成
      */
     static downloadZipIfComplete($ul, progress, zip, index, length) {
-        
+
         progress.value =  index / length;
 
         if (index === length) {
@@ -1580,7 +1584,7 @@ class Core {
             $(node).click (function() {
                 setTimeout(Core.handleWeiBoCard, Config.space)
             })
-        })    
+        })
     }
 
     /**
@@ -1923,7 +1927,7 @@ class Core {
 }
 
     var lastHeight = 0
-    
+
     setTimeout(function () {
         lastHeight = document.body.scrollHeight
         Core.handleMoreBtn()
